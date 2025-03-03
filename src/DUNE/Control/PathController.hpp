@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -211,6 +211,11 @@ namespace DUNE
         bool nearby : 1;
         //! Set if course control is enabled.
         bool cc : 1;
+        // Lat lon of start and end wp
+        double start_lat;
+        double start_lon;
+        double end_lat;
+        double end_lon;
       };
 
       //! Handler for the startup of a new path.
@@ -226,11 +231,14 @@ namespace DUNE
         (void)ts;
       }
 
+
       //! Abstract method for controller step that must be provided by subclasses.
       //! @param state navigation state
       //! @param ts tracking state information
+      //! @param pcs path control state information
       virtual void
       step(const IMC::EstimatedState& state, const TrackingState& ts) = 0;
+
 
       //! Default implementation for loiter control,
       //! that can be  overriden for a controller specific implementation.

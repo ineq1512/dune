@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -28,7 +28,7 @@
 //***************************************************************************
 // Automatically generated.                                                 *
 //***************************************************************************
-// IMC XML MD5: 6347d9defff7438e2a2031366a35e122                            *
+// IMC XML MD5: 395f9636b10cd48a03f80934b6df2924                            *
 //***************************************************************************
 
 MESSAGE(1, EntityState)
@@ -289,6 +289,7 @@ MESSAGE(602, Map)
 MESSAGE(603, MapFeature)
 MESSAGE(604, MapPoint)
 MESSAGE(606, CcuEvent)
+MESSAGE(607, AisInfo)
 MESSAGE(650, VehicleLinks)
 MESSAGE(651, TrexObservation)
 MESSAGE(652, TrexCommand)
@@ -350,15 +351,29 @@ MESSAGE(906, ApmStatus)
 MESSAGE(907, SadcReadings)
 MESSAGE(908, DmsDetection)
 MESSAGE(909, HomePosition)
+MESSAGE(911, EstimatedFreq)
+MESSAGE(916, CollisionAvoidance)
+MESSAGE(918, Heave)
+MESSAGE(1000, DynObsVec)
+MESSAGE(1011, NegotiationMsgLog)
 MESSAGE(1014, CurrentProfile)
 MESSAGE(1015, CurrentProfileCell)
 MESSAGE(1016, ADCPBeam)
-MESSAGE(2000, GpioState)
-MESSAGE(2001, GpioStateGet)
-MESSAGE(2002, GpioStateSet)
-MESSAGE(2003, ColoredDissolvedOrganicMatter)
-MESSAGE(2004, FluorescentDissolvedOrganicMatter)
-MESSAGE(2006, TotalMagIntensity)
-MESSAGE(2010, CommRestriction)
-MESSAGE(2021, VersionInfo)
+MESSAGE(1017, GpioState)
+MESSAGE(1018, GpioStateGet)
+MESSAGE(1019, GpioStateSet)
+MESSAGE(1020, ColoredDissolvedOrganicMatter)
+MESSAGE(1021, FluorescentDissolvedOrganicMatter)
+MESSAGE(1022, TotalMagIntensity)
+MESSAGE(1023, CommRestriction)
+MESSAGE(2007, TBRFishTag)
+MESSAGE(2008, TBRSensor)
+MESSAGE(2009, PlanProbSpec)
+MESSAGE(2010, otterFormation)
+MESSAGE(2011, AdmmPos)
+MESSAGE(2012, AdmmPath)
+MESSAGE(2013, NegotiationData)
+MESSAGE(2014, alloc)
+MESSAGE(2015, Svec)
+MESSAGE(2016, Svec_value)
 #undef MESSAGE

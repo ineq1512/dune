@@ -1,0 +1,15 @@
+prefix=/mumps
+#prefix=${pcfiledir}/../..
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/coin-or/mumps
+
+Name: Mumps
+Description: Multifrontal Massively Parallel sparse direct Solver
+URL: https://github.com/coin-or-tools/ThirdParty-Mumps
+Version: 3.0.5
+Cflags: -I${includedir}
+#Libs: -L${libdir} -lcoinmumps
+#Requires.private: lapack blas 
+Libs: -L${libdir} -lcoinmumps    -L/usr/lib/gcc/aarch64-linux-gnu/9 -L/usr/lib/gcc/aarch64-linux-gnu/9/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/9/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/9/../../.. -lgfortran -lm -lpthread 
+Requires: lapack blas 

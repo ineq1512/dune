@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -675,10 +675,6 @@ namespace Sensors
         }
         else
         {
-          m_fix.lat = 0;
-          m_fix.lon = 0;
-          m_fix.height = 0;
-          m_fix.satellites = 0;
           m_fix.validity &= ~IMC::GpsFix::GFV_VALID_POS;
         }
 

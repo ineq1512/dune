@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -264,6 +264,11 @@ namespace Maneuver
         .defaultValue("3.0")
         .units(Units::Meter)
         .description("Minimum distance to ground or object to stop burst");
+
+        param("Dislodge -- Safe Depth Gap", m_args.dislodge.safe_gap)
+        .defaultValue("3.0")
+        .units(Units::Meter)
+        .description("Safe depth change to consider the maneuver was successful");
 
         param("Dislodge -- Safe Depth Gap", m_args.dislodge.safe_gap)
         .defaultValue("3.0")

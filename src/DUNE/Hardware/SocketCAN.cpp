@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -85,7 +85,7 @@ namespace DUNE
           throw Error("Frame type not recognized", System::Error::getLastMessage());
       }
       
-      std::strncpy(m_ifr.ifr_name, can_dev.c_str(), IFNAMSIZ - 1);
+      std::strncpy(m_ifr.ifr_name, can_dev.c_str(), IFNAMSIZ);
 
 
       if(::ioctl(m_can_socket, SIOCGIFFLAGS, &m_ifr) < 0) {
@@ -178,16 +178,14 @@ namespace DUNE
           frame.can_dlc = size;
           frame.can_id = cantxid;
           memcpy(frame.data, bfr, size);
-          if (::write(m_can_socket, &frame, CAN_MTU) == -1)
-              throw Error("Write failed", System::Error::getLastMessage());
+          ::write(m_can_socket, &frame, CAN_MTU);
         break;
         case CAN_FD:
           struct canfd_frame fdframe;
           fdframe.len = size;
           fdframe.can_id = cantxid;
           memcpy(fdframe.data, bfr, size);
-          if (::write(m_can_socket, &fdframe, CANFD_MTU) == -1)
-              throw Error("Write failed", System::Error::getLastMessage());
+          ::write(m_can_socket, &fdframe, CANFD_MTU);
         break;
         default:
           throw Error("Frame type not recognized", System::Error::getLastMessage());

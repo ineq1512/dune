@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -39,8 +39,6 @@
 
 using namespace DUNE::Concurrency;
 
-static constexpr int thread_num = 10;
-
 class TestIncrement: public Thread
 {
 private:
@@ -67,6 +65,7 @@ main(void)
 
   AtomicInteger aint(0);
   long target = 10000;
+  int thread_num = 10;
 
   TestIncrement* tests[thread_num];
   for (int i = 0; i <  thread_num; i++)

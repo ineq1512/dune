@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -28,7 +28,7 @@
 //***************************************************************************
 // Automatically generated.                                                 *
 //***************************************************************************
-// IMC XML MD5: 6347d9defff7438e2a2031366a35e122                            *
+// IMC XML MD5: 395f9636b10cd48a03f80934b6df2924                            *
 //***************************************************************************
 
 #ifndef DUNE_IMC_MACROS_HPP_INCLUDED_
@@ -550,6 +550,8 @@
 #define DUNE_IMC_MAPPOINT 604
 //! CcuEvent identification number.
 #define DUNE_IMC_CCUEVENT 606
+//! AisInfo identification number.
+#define DUNE_IMC_AISINFO 607
 //! VehicleLinks identification number.
 #define DUNE_IMC_VEHICLELINKS 650
 //! TrexObservation identification number.
@@ -672,6 +674,16 @@
 #define DUNE_IMC_DMSDETECTION 908
 //! HomePosition identification number.
 #define DUNE_IMC_HOMEPOSITION 909
+//! EstimatedFreq identification number.
+#define DUNE_IMC_ESTIMATEDFREQ 911
+//! CollisionAvoidance identification number.
+#define DUNE_IMC_COLLISIONAVOIDANCE 916
+//! Heave identification number.
+#define DUNE_IMC_HEAVE 918
+//! DynObsVec identification number.
+#define DUNE_IMC_DYNOBSVEC 1000
+//! NegotiationMsgLog identification number.
+#define DUNE_IMC_NEGOTIATIONMSGLOG 1011
 //! CurrentProfile identification number.
 #define DUNE_IMC_CURRENTPROFILE 1014
 //! CurrentProfileCell identification number.
@@ -679,20 +691,38 @@
 //! ADCPBeam identification number.
 #define DUNE_IMC_ADCPBEAM 1016
 //! GpioState identification number.
-#define DUNE_IMC_GPIOSTATE 2000
+#define DUNE_IMC_GPIOSTATE 1017
 //! GpioStateGet identification number.
-#define DUNE_IMC_GPIOSTATEGET 2001
+#define DUNE_IMC_GPIOSTATEGET 1018
 //! GpioStateSet identification number.
-#define DUNE_IMC_GPIOSTATESET 2002
+#define DUNE_IMC_GPIOSTATESET 1019
 //! ColoredDissolvedOrganicMatter identification number.
-#define DUNE_IMC_COLOREDDISSOLVEDORGANICMATTER 2003
+#define DUNE_IMC_COLOREDDISSOLVEDORGANICMATTER 1020
 //! FluorescentDissolvedOrganicMatter identification number.
-#define DUNE_IMC_FLUORESCENTDISSOLVEDORGANICMATTER 2004
+#define DUNE_IMC_FLUORESCENTDISSOLVEDORGANICMATTER 1021
 //! TotalMagIntensity identification number.
-#define DUNE_IMC_TOTALMAGINTENSITY 2006
+#define DUNE_IMC_TOTALMAGINTENSITY 1022
 //! CommRestriction identification number.
-#define DUNE_IMC_COMMRESTRICTION 2010
-//! VersionInfo identification number.
-#define DUNE_IMC_VERSIONINFO 2021
+#define DUNE_IMC_COMMRESTRICTION 1023
+//! TBRFishTag identification number.
+#define DUNE_IMC_TBRFISHTAG 2007
+//! TBRSensor identification number.
+#define DUNE_IMC_TBRSENSOR 2008
+//! PlanProbSpec identification number.
+#define DUNE_IMC_PLANPROBSPEC 2009
+//! otterFormation identification number.
+#define DUNE_IMC_OTTERFORMATION 2010
+//! AdmmPos identification number.
+#define DUNE_IMC_ADMMPOS 2011
+//! AdmmPath identification number.
+#define DUNE_IMC_ADMMPATH 2012
+//! NegotiationData identification number.
+#define DUNE_IMC_NEGOTIATIONDATA 2013
+//! alloc identification number.
+#define DUNE_IMC_ALLOC 2014
+//! Svec identification number.
+#define DUNE_IMC_SVEC 2015
+//! Svec_value identification number.
+#define DUNE_IMC_SVEC_VALUE 2016
 
 #endif

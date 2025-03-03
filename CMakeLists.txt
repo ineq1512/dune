@@ -1,5 +1,5 @@
 ############################################################################
-# Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      #
+# Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      #
 # Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  #
 ############################################################################
 # This file is part of DUNE: Unified Navigation Environment.               #
@@ -28,22 +28,43 @@
 ############################################################################
 
 # Validate CMake version.
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 if(COMMAND CMAKE_POLICY)
-  cmake_policy(SET CMP0075 NEW)
-  if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.28")
-    cmake_policy(SET CMP0153 OLD)
-    cmake_policy(SET CMP0145 OLD)
-  endif()
+  cmake_policy(SET CMP0003 NEW)
 endif(COMMAND CMAKE_POLICY)
 
 # Required C++ Standard.
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
 include(cmake/Toolchain.cmake)
+if(NOT ${DUNE_CPU_NAME} STREQUAL "x86")
+  # Set the Fortran compiler
+  set(CMAKE_Fortran_COMPILER aarch64-linux-gnu-gfortran)
+
+  # # Probe gfortran version
+  # execute_process(
+  #   COMMAND ${CMAKE_Fortran_COMPILER} --version
+  #   OUTPUT_VARIABLE GFORTRAN_VERSION_OUTPUT
+  #   OUTPUT_STRIP_TRAILING_WHITESPACE
+  # )
+
+  # # Print the raw output for debugging
+  # message(STATUS "Raw gfortran version output: ${GFORTRAN_VERSION_OUTPUT}")
+
+  # # Extract the version number from the output
+  # string(REGEX MATCH "([0-9]+\\.[0-9]+\\.[0-9]+)" GFORTRAN_VERSION "${GFORTRAN_VERSION_OUTPUT}")
+
+  # # Print the gfortran version
+  # message(STATUS "gfortran version: ${GFORTRAN_VERSION}")
+  # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgfortran")
+  # Apply the static linker flags
+
+
+endif()
+
+
 
 ##########################################################################
 #                         Project information                            #
@@ -52,12 +73,12 @@ project("DUNE")
 set(PROJECT_NAME "DUNE: Unified Navigation Environment")
 set(PROJECT_SHORT_NAME "DUNE")
 set(PROJECT_VENDOR "Universidade do Porto - LSTS")
-set(PROJECT_COPYRIGHT "Copyright (C) 2007-2025 - ${PROJECT_VENDOR}")
+set(PROJECT_COPYRIGHT "Copyright (C) 2007-2024 - ${PROJECT_VENDOR}")
 set(PROJECT_CONTACT "DUNE <dune@lsts.pt>")
-set(PROJECT_VERSION_YEAR  "2024")
-set(PROJECT_VERSION_MONTH "09")
+set(PROJECT_VERSION_YEAR "2022")
+set(PROJECT_VERSION_MONTH "04")
 set(PROJECT_VERSION_PATCH "0")
-set(PROJECT_VERSION_RCN   "0")
+set(PROJECT_VERSION_RCN "0")
 
 # Version formats.
 set(PROJECT_VERSION
@@ -169,12 +190,8 @@ endif(TLSF)
 file(GLOB_RECURSE DUNE_CORE_SOURCES "${PROJECT_SOURCE_DIR}/src/DUNE/*.cpp")
 file(GLOB_RECURSE DUNE_CORE_HEADERS "${PROJECT_SOURCE_DIR}/src/DUNE/*.hpp"
   "${PROJECT_SOURCE_DIR}/src/DUNE/*.def")
-file(GLOB_RECURSE DUNE_CORE_DEFS    "${PROJECT_SOURCE_DIR}/src/DUNE/*.def")
+file(GLOB_RECURSE DUNE_CORE_DEFS "${PROJECT_SOURCE_DIR}/src/DUNE/*.def")
 string(REPLACE ";" " " DUNE_CORE_HEADERS_STRING "${DUNE_CORE_HEADERS}")
-
-file(GLOB_RECURSE PRIVATE_CORE_SOURCES "${PROJECT_SOURCE_DIR}/private*/src/DUNE/Control/*.cpp")
-file(GLOB_RECURSE PRIVATE_CORE_HEADERS "${PROJECT_SOURCE_DIR}/private*/src/DUNE/Control/*.hpp")
-string(REPLACE ";" " " PRIVATE_CORE_HEADERS_STRING "${PRIVATE_CORE_HEADERS}")
 
 file(GLOB_RECURSE USER_CORE_SOURCES "${PROJECT_SOURCE_DIR}/user*/src/USER/*.cpp")
 file(GLOB_RECURSE USER_CORE_HEADERS "${PROJECT_SOURCE_DIR}/user*/src/USER/*.hpp")
@@ -188,21 +205,7 @@ install(FILES ${DUNE_GENERATED}/src/DUNE/Config.hpp
 
 include(${PROJECT_SOURCE_DIR}/cmake/Version.cmake)
 
-message(STATUS "")
-message(STATUS "******************************************")
-message(STATUS "***            Compiler Flags          ***")
-message(STATUS "******************************************")
-
-if(NOT DUNE_OS_WINDOWS)
-  message(STATUS "Adding: -Wno-cpp")
-  set(DUNE_CXX_FLAGS "${DUNE_CXX_FLAGS} -Wno-cpp")
-  set(DUNE_C_FLAGS "${DUNE_C_FLAGS} -Wno-cpp")
-endif(NOT DUNE_OS_WINDOWS)
-
-message(STATUS "DUNE_CXX_FLAGS: ${DUNE_CXX_FLAGS}")
-message(STATUS "DUNE_C_FLAGS: ${DUNE_C_FLAGS}")
-
-set_source_files_properties(${DUNE_CORE_SOURCES} ${USER_CORE_SOURCES} ${PRIVATE_CORE_SOURCES}
+set_source_files_properties(${DUNE_CORE_SOURCES} ${USER_CORE_SOURCES}
   PROPERTIES COMPILE_FLAGS "${DUNE_CXX_FLAGS} ${DUNE_CXX_FLAGS_STRICT}")
 
 if(DUNE_OS_WINDOWS)
@@ -213,7 +216,7 @@ if(DUNE_OS_WINDOWS)
     ${DUNE_GENERATED}/src/DUNE/Version.rc)
 endif(DUNE_OS_WINDOWS)
 
-foreach(header ${DUNE_CORE_HEADERS} ${USER_CORE_HEADERS} ${PRIVATE_CORE_HEADERS})
+foreach(header ${DUNE_CORE_HEADERS} ${USER_CORE_HEADERS})
   string(REGEX REPLACE "${PROJECT_SOURCE_DIR}/" "" header ${header})
   string(REGEX REPLACE "src" "include" destination ${header})
   get_filename_component(destination ${destination} PATH)
@@ -239,21 +242,21 @@ foreach(extlib ${extlibs})
 endforeach(extlib ${extlibs})
 
 file(GLOB DUNE_SOURCE_USER ${PROJECT_SOURCE_DIR}/user*/src)
-file(GLOB DUNE_SOURCE_PRIVATE ${PROJECT_SOURCE_DIR}/private*/src)
-include_directories(${DUNE_GENERATED}/src ${PROJECT_SOURCE_DIR}/src ${DUNE_SOURCE_USER} ${DUNE_SOURCE_PRIVATE} ${DUNE_VENDOR_INCS_DIR})
+include_directories(${DUNE_GENERATED}/src ${PROJECT_SOURCE_DIR}/src ${DUNE_SOURCE_USER} ${DUNE_VENDOR_INCS_DIR})
 link_directories(${DUNE_VENDOR_LIBS_DIR})
 set(DUNE_CORE_FILES ${DUNE_CORE_SOURCES} ${DUNE_VENDOR_FILES})
 set(USER_CORE_FILES ${USER_CORE_SOURCES} ${USER_VENDOR_FILES})
-set(PRIVATE_CORE_FILES ${PRIVATE_CORE_SOURCES} ${PRIVATE_VENDOR_FILES})
+message(STATUS "Linked libraries: ${DUNE_VENDOR_LIBRARIES}")
+
 
 if(DUNE_SHARED)
   message(STATUS "Building shared library")
-  add_library(dune-core SHARED ${DUNE_CORE_FILES} ${USER_CORE_FILES} ${PRIVATE_CORE_FILES} )
+  add_library(dune-core SHARED ${DUNE_CORE_FILES} ${USER_CORE_FILES})
   set_target_properties(dune-core PROPERTIES DEFINE_SYMBOL DUNE_DLL_EXPORT)
   target_link_libraries(dune-core ${DUNE_SYS_LIBS})
 else(DUNE_SHARED)
   message(STATUS "Building static library")
-  add_library(dune-core STATIC ${DUNE_CORE_FILES} ${USER_CORE_FILES} ${PRIVATE_CORE_FILES} )
+  add_library(dune-core STATIC ${DUNE_CORE_FILES} ${USER_CORE_FILES})
   if(DUNE_CXX_MICROSOFT AND DUNE_CPU_X86)
     if(DUNE_CPU_32B)
       set_target_properties(dune-core PROPERTIES STATIC_LIBRARY_FLAGS "/machine:x86")
@@ -261,6 +264,7 @@ else(DUNE_SHARED)
       set_target_properties(dune-core PROPERTIES STATIC_LIBRARY_FLAGS "/machine:x64")
     endif(DUNE_CPU_32B)
   endif(DUNE_CXX_MICROSOFT AND DUNE_CPU_X86)
+  # target_link_libraries(dune-core ${DUNE_SYS_LIBS} ${DUNE_VENDOR_LIBRARIES})
 endif(DUNE_SHARED)
 
 add_dependencies(dune-core dune-version)
@@ -269,7 +273,38 @@ add_dependencies(dune-core dune-version)
 if(ELLIPSOIDAL)
   add_definitions(-DDUNE_ELLIPSOIDAL_DISPLACE)
 endif(ELLIPSOIDAL)
-
+##########################################################################
+#                          Ipopt                                         #
+##########################################################################
+if(${DUNE_CPU_NAME} STREQUAL "x86")
+  include(${PROJECT_SOURCE_DIR}/cmake/FindIPOPT.cmake)
+  include_directories(${IPOPT_INCLUDE_DIRS})
+  target_link_libraries(dune-core ${IPOPT_LIBRARIES})
+  # # Include bonmin
+  # include(${PROJECT_SOURCE_DIR}/cmake/FindBONMIN.cmake)
+  # include_directories(${BONMIN_INCLUDE_DIRS})
+  # target_link_libraries(dune-core ${BONMIN_LIBRARIES})
+else()
+  # Path to the static libgfortran library
+  set(LIBGFORTRAN_PATH "/usr/lib/gcc-cross/aarch64-linux-gnu/9/libgfortran.a")
+  # Specify the paths to the static libraries
+  set(BLAS_LIBRARIES /usr/lib/aarch64-linux-gnu/blas/libblas.a)
+  set(LAPACK_LIBRARIES /usr/lib/aarch64-linux-gnu/lapack/liblapack.a /usr/lib/aarch64-linux-gnu/blas/libblas.a)
+  # Print BLAS information
+  message(STATUS "BLAS libraries: ${BLAS_LIBRARIES}")
+  message(STATUS "BLAS include directories: ${BLAS_INCLUDE_DIRS}")
+  # Print LAPACK information
+  message(STATUS "LAPACK libraries: ${LAPACK_LIBRARIES}")
+  message(STATUS "LAPACK include directories: ${LAPACK_INCLUDE_DIRS}")
+  # Set METIS include directory and library path
+  include(${PROJECT_SOURCE_DIR}/cmake/FindIPOPT.cmake)
+  include_directories(${IPOPT_INCLUDE_DIRS} ${MUMPS_INCLUDE_DIR} ${METIS_INCLUDE_DIR})
+  target_link_libraries(dune-core ${IPOPT_LIBRARIES} ${MUMPS_LIBRARIES} ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES} ${METIS_LIBRARIES} ${LIBGFORTRAN_PATH} gfortran)
+  # # Include bonmin
+  # include(${PROJECT_SOURCE_DIR}/cmake/FindBONMIN.cmake)
+  # include_directories(${BONMIN_INCLUDE_DIRS})
+  # target_link_libraries(dune-core ${BONMIN_LIBRARIES})
+endif()
 ##########################################################################
 #                          Tasks                                         #
 ##########################################################################
@@ -294,6 +329,9 @@ add_executable(dune
 set_source_files_properties(src/Main/Daemon.cpp
   PROPERTIES
   COMPILE_FLAGS "${DUNE_CXX_FLAGS}")
+
+# Apply the linker options to the executable using set_target_properties
+set_target_properties(dune PROPERTIES LINK_FLAGS "${static_link_flags}")
 target_link_libraries(dune dune-core ${DUNE_SYS_LIBS} ${DUNE_STATIC_TASKS}
   ${DUNE_VENDOR_LIBS})
 
@@ -392,10 +430,10 @@ if(DUNE_OS_WINDOWS)
   set(CPACK_NSIS_CREATE_ICONS_EXTRA "CreateShortCut          \\\\
     '$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\LAUV Simulator.lnk' \\\\
     '$INSTDIR\\\\bin\\\\dune.exe'                            \\\\
-    '-c lauv-simulator-1 -p Simulation'")
+    '-c lauv-simulator-1 -p Simulation'"  )
 
   set(CPACK_NSIS_DELETE_ICONS_EXTRA "Delete                  \\\\
-    '$SMPROGRAMS\\\\$MUI_TEMP\\\\LAUV Simulator.lnk'")
+    '$SMPROGRAMS\\\\$MUI_TEMP\\\\LAUV Simulator.lnk'"  )
 endif(DUNE_OS_WINDOWS)
 
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${PROJECT_NAME})
@@ -469,7 +507,7 @@ find_program(
   CLANG_FORMAT_EXECUTABLE
   NAMES "clang-format"
   DOC "Path to clang-format executable"
-  )
+)
 if(NOT CLANG_FORMAT_EXECUTABLE)
   message(STATUS "clang-format not found.")
 else()

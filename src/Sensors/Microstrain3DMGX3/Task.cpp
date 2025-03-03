@@ -1,5 +1,5 @@
 //***************************************************************************
-// Copyright 2007-2025 Universidade do Porto - Faculdade de Engenharia      *
+// Copyright 2007-2024 Universidade do Porto - Faculdade de Engenharia      *
 // Laboratório de Sistemas e Tecnologia Subaquática (LSTS)                  *
 //***************************************************************************
 // This file is part of DUNE: Unified Navigation Environment.               *
@@ -308,13 +308,6 @@ namespace Sensors
         m_uart->setMinimumRead(max_data);
       }
 
-      bool
-      resetUart()
-      {
-        delete(m_uart);
-        return onConnect();
-      }
-
       void
       consume(const IMC::MagneticField* msg)
       {
@@ -491,7 +484,6 @@ namespace Sensors
             setEntityState(IMC::EntityState::ESTA_NORMAL, Status::CODE_CALIBRATING);
             inf(DTR("resetting device"));
             poll(CMD_DEVICE_RESET, CMD_DEVICE_RESET_SIZE, 0, 0);
-            resetUart();
           }
         }
       }
